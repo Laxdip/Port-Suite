@@ -80,26 +80,26 @@ ruby scan.rb -t google.com -q
 ---
 
 ## 📖 Usage Examples
-```bash
+---------------------------------------------------------------------
 Scan common ports  
 python scanner.py github.com -q  
-
+---------------------------------------------------------------------
 Scan specific range  
 go run fastscan.go -host 192.168.1.1 -p 1-1000  
-
+---------------------------------------------------------------------
 Service detection  
 ruby scan.rb -t cloudflare.com -p 22,80,443 -to 500  
-
+---------------------------------------------------------------------
 Real-time ping  
 node ping.js -t google.com -i 500  
-
+---------------------------------------------------------------------
 Network discovery  
 sudo ./netscan.sh -a  
-
+---------------------------------------------------------------------
 Start web scanner (PHP)  
 php -S localhost:8080 webscan.php --web  
 Open http://localhost:8080  
-```
+---------------------------------------------------------------------
 ---
 
 ## 📊 Output Example
