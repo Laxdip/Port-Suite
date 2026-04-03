@@ -17,6 +17,25 @@
 
 ---
 
+## 📸Screenshots
+
+### Python Scanner
+![Python](screenshots/python.png)
+
+### Go Scanner
+![Go](screenshots/Go.png)
+
+### JavaScript Ping Monitor
+![JavaScript](screenshots/js.png)
+
+### PHP Web Scanner
+![PHP](screenshots/php.png)
+
+### Ruby Scanner
+![Ruby](screenshots/ruby.png)
+
+---
+
 ## 📁 Versions & Purpose
 
 | Version | File | Best For |
