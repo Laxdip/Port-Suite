@@ -1,6 +1,6 @@
 # 🔍 Port-Suite
 
-**Port-Suite** is a multi-language network port scanning suite. Each implementation is optimized for a specific use case from speed to accuracy to usability.
+**Port-Suite** is a network port scanning suite. Each implementation is optimized for a specific use case from speed to accuracy to usability.
 
 ---
 
@@ -174,6 +174,6 @@ MIT License
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 Prasad
