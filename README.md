@@ -38,11 +38,11 @@
 ### 🐍 Python
 cd python  
 python scanner.py -t google.com -q  
-
+---
 ### 🟨 JavaScript (Node.js)
 cd javascript  
 node ping.js -t google.com  
-
+---
 ### 🔵 Go
 cd go  
 go run fastscan.go -host google.com -quick  
