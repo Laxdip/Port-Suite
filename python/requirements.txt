@@ -1,0 +1,7 @@
+# Port-Suite - Python Dependencies
+# The scanner works with zero external packages.
+# Only Python 3.6+ required.
+
+# For development/testing (optional):
+# pytest>=7.0.0
+# black>=23.0.0
