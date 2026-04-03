@@ -34,6 +34,7 @@
 
 ## 🚀 Quick Start
 
+```bash
 ### 🐍 Python
 cd python  
 python scanner.py -t google.com -q  
@@ -68,7 +69,7 @@ PortScanner.exe
 ### 💎 Ruby
 cd ruby  
 ruby scan.rb -t google.com -q  
-
+```
 ---
 
 ## 📖 Usage Examples
