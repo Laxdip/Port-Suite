@@ -1,4 +1,4 @@
-# 🔍 Port-Suite
+# Port-Suite
 
 **Port-Suite** is a network port scanning suite. Each implementation is optimized for a specific use case from speed to accuracy to usability.
 
@@ -8,16 +8,16 @@
 
 | Feature | Description |
 |--------|-------------|
-| 🚀 **Fast** | Multi-threaded / concurrent scanning |
-| 🎯 **Accurate** | Service detection and banner grabbing |
-| 💻 **Cross-platform** | Works on Windows, Linux, macOS |
-| 🎨 **Beautiful UI** | Terminal colors + Windows GUI app |
-| 📊 **Detailed output** | Port, service, status, response time |
-| 💾 **Export results** | Save scans to file |
+|  **Fast** | Multi-threaded / concurrent scanning |
+|  **Accurate** | Service detection and banner grabbing |
+|  **Cross-platform** | Works on Windows, Linux, macOS |
+|  **Beautiful UI** | Terminal colors + Windows GUI app |
+|  **Detailed output** | Port, service, status, response time |
+|  **Export results** | Save scans to file |
 
 ---
 
-## 📸Screenshots
+## Screenshots
 
 ### Python Scanner
 ![Python](screenshots/python.png)
@@ -36,69 +36,69 @@
 
 ---
 
-## 📁 Versions & Purpose
+## Versions & Purpose
 
 | Version | File | Best For |
 |--------|------|----------|
-| 🐍 Python | `python/scanner.py` | Full features, OS detection, banner grabbing |
-| 🟨 JavaScript | `javascript/ping.js` | Real-time latency monitoring |
-| 🔵 Go | `go/fastscan.go` | Blazing fast scanning |
-| 🦀 Rust | `rust/scanner.rs` | Memory-safe, high performance |
-| 🐚 Bash | `bash/netscan.sh` | Local network discovery |
-| 🐘 PHP | `php/webscan.php` | Web + CLI scanning |
-| 🪟 C# | `csharp/PortScanner.cs` | Windows GUI application |
-| 💎 Ruby | `ruby/scan.rb` | Service fingerprinting |
+| Python | `python/scanner.py` | Full features, OS detection, banner grabbing |
+| JavaScript | `javascript/ping.js` | Real-time latency monitoring |
+| Go | `go/fastscan.go` | Blazing fast scanning |
+| Rust | `rust/scanner.rs` | Memory-safe, high performance |
+| Bash | `bash/netscan.sh` | Local network discovery |
+| PHP | `php/webscan.php` | Web + CLI scanning |
+| C# | `csharp/PortScanner.cs` | Windows GUI application |
+| Ruby | `ruby/scan.rb` | Service fingerprinting |
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
-### 🐍 Python
+### Python
 ```
 cd python  
 python scanner.py -t google.com -q  
 ```
-### 🟨 JavaScript (Node.js)
+### JavaScript (Node.js)
 ```
 cd javascript  
 node ping.js -t google.com  
 ```
-### 🔵 Go
+### Go
 ```
 cd go  
 go run fastscan.go -host google.com -quick  
 ```
-### 🦀 Rust
+### Rust
 ```
 cd rust  
 rustc scanner.rs  
 ./scanner -t google.com -q  
 ```
-### 🐚 Bash
+### Bash
 ```
 cd bash  
 chmod +x netscan.sh  
 ./netscan.sh -n 192.168.1.0/24  
 ```
-### 🐘 PHP
+### PHP
 ```
 cd php  
 php webscan.php -t google.com -q  
 ```
-### 🪟 C# (Windows)
+### C# (Windows)
 ```
 cd csharp  
 csc /target:winexe /reference:System.Windows.Forms.dll PortScanner.cs  
 PortScanner.exe  
 ```
-### 💎 Ruby
+### Ruby
 ```
 cd ruby  
 ruby scan.rb -t google.com -q  
 ```
 ---
 
-## 📖 Usage Examples
+## Usage Examples
 
 Scan common ports  
 python scanner.py github.com -q  
@@ -121,7 +121,7 @@ Open http://localhost:8080
 
 ---
 
-## 🛠️ Requirements
+## Requirements
 
 | Version | Requirement |
 |--------|------------|
@@ -136,7 +136,7 @@ Open http://localhost:8080
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 Port-Suite/  
 ├── README.md  
@@ -167,7 +167,7 @@ Only scan systems you own or have permission to test.
 
 ---
 
-## 📄 License
+## License
 
 MIT License  
 
