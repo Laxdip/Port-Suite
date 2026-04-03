@@ -1,0 +1,8 @@
+*.py linguist-language=Python
+*.js linguist-language=JavaScript
+*.go linguist-language=Go
+*.rs linguist-language=Rust
+*.sh linguist-language=Bash
+*.php linguist-language=PHP
+*.cs linguist-language=C#
+*.rb linguist-language=Ruby
