@@ -34,38 +34,38 @@
 
 ## 🚀 Quick Start
 
-```bash
+```
 ### 🐍 Python
 cd python  
 python scanner.py -t google.com -q  
----
+```
 ### 🟨 JavaScript (Node.js)
 cd javascript  
 node ping.js -t google.com  
----
+```
 ### 🔵 Go
 cd go  
 go run fastscan.go -host google.com -quick  
-
+```
 ### 🦀 Rust
 cd rust  
 rustc scanner.rs  
 ./scanner -t google.com -q  
-
+```
 ### 🐚 Bash
 cd bash  
 chmod +x netscan.sh  
 ./netscan.sh -n 192.168.1.0/24  
-
+```
 ### 🐘 PHP
 cd php  
 php webscan.php -t google.com -q  
-
+```
 ### 🪟 C# (Windows)
 cd csharp  
 csc /target:winexe /reference:System.Windows.Forms.dll PortScanner.cs  
 PortScanner.exe  
-
+```
 ### 💎 Ruby
 cd ruby  
 ruby scan.rb -t google.com -q  
