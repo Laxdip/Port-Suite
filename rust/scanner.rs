@@ -1,7 +1,7 @@
 // SmartScan - Rust High Performance Scanner
 // Author: Prasad
 
-use std::net::TcpStream;
+
 use std::time::Duration;
 use std::thread;
 use std::sync::{Arc, Mutex};
