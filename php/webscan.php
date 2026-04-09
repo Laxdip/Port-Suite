@@ -7,7 +7,7 @@
  */
 
 // ANSI colors for CLI mode
-definee('RESET', "\033[0m");
+define('RESET', "\033[0m");
 define('RED', "\033[91m");
 define('GREEN', "\033[92m");
 define('YELLOW', "\033[93m");
