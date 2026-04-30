@@ -26,12 +26,6 @@ print_results_header() {
     echo -e "${RESET}"
 }
 
-print_results_table() {
-    echo -e "${CYAN}"
-    echo '┌─────────────┬──────────────────────────────────┬────────────┬────────────────────────────────────────────────┐'
-    echo '│    STATUS   │              IP ADDRESS          │    TIME    │                    HOSTNAME                    │'
-    echo '├─────────────┼──────────────────────────────────┼────────────┼────────────────────────────────────────────────┤'
-    echo -e "${RESET}"
     
     while IFS= read -r line; do
         ip=$(echo "$line" | awk '{print $1}')
