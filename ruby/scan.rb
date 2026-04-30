@@ -1,8 +1,3 @@
-#!/usr/bin/env ruby
-# SmartScan - Ruby Service Detection Scanner
-# Author: Prasad
-# Features: Banner grabbing, Service fingerprinting, Version detection
-
 require 'socket'
 require 'timeout'
 require 'optparse'
