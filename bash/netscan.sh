@@ -8,14 +8,6 @@ print_help() {
     echo ''
     echo -e "  ${WHITE}./netscan.sh [options]${RESET}"
     echo ''
-    echo -e "${YELLOW}OPTIONS:${RESET}"
-    echo '  -n, --network <subnet>     Network subnet (e.g., 192.168.1.0/24)'
-    echo '  -t, --timeout <sec>        Timeout in seconds (default: 1)'
-    echo '  -p, --ports <ports>        Scan common ports on discovered hosts'
-    echo '  -q, --quick                Quick scan (ping only)'
-    echo '  -a, --arp                  Use ARP scan (more accurate, needs sudo)'
-    echo '  -o, --output <file>        Save results to file'
-    echo '  -h, --help                 Show this help message'
     echo ''
     echo -e "${YELLOW}EXAMPLES:${RESET}"
     echo '  ./netscan.sh'
