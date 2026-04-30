@@ -1,6 +1,4 @@
 
-# SmartScan - Local Network Discovery Scanner
-# Author: Prasad
 
 # ANSI color codes
 RED='\033[91m'
