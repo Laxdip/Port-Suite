@@ -1,7 +1,3 @@
-require 'socket'
-require 'timeout'
-require 'optparse'
-
 # ANSI color codes
 COLORS = {
   reset: "\033[0m",
