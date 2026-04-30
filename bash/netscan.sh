@@ -30,35 +30,6 @@ log_warn()    { echo -e "${YELLOW}[!]${RESET} $*"; }
 log_error()   { echo -e "${RED}[✗]${RESET} $*" >&2; }
 log_verbose() { [[ "$VERBOSE" == true ]] && echo -e "${DIM}[v] $*${RESET}"; }
 
-# ─── Help ────────────────────────────────────────────────────────────────────
-print_help() {
-    echo -e "${CYAN}"
-    echo '┌──────────────────────────────────────────────────────────────────┐'
-    echo '│                            USAGE                                 │'
-    echo '└──────────────────────────────────────────────────────────────────┘'
-    echo -e "${RESET}"
-    echo -e "  ${WHITE}./netscan.sh [options]${RESET}"
-    echo ''
-    echo -e "${YELLOW}OPTIONS:${RESET}"
-    printf "  %-30s %s\n" "-n, --network <subnet>"   "Network subnet (e.g., 192.168.1.0/24)"
-    printf "  %-30s %s\n" "-t, --timeout <sec>"      "Timeout in seconds (default: 1)"
-    printf "  %-30s %s\n" "-p, --ports [port,list]"  "Scan ports on discovered hosts (default list if omitted)"
-    printf "  %-30s %s\n" "-j, --jobs <n>"           "Parallel ping workers (default: 20)"
-    printf "  %-30s %s\n" "-q, --quick"              "Quick scan (ping only, no hostname lookup)"
-    printf "  %-30s %s\n" "-a, --arp"                "Use ARP scan (more accurate, needs sudo)"
-    printf "  %-30s %s\n" "-o, --output <file>"      "Save results to file (.txt + .csv)"
-    printf "  %-30s %s\n" "-v, --verbose"            "Verbose output"
-    printf "  %-30s %s\n" "-h, --help"               "Show this help message"
-    echo ''
-    echo -e "${YELLOW}EXAMPLES:${RESET}"
-    echo '  ./netscan.sh'
-    echo '  ./netscan.sh -n 192.168.1.0/24 -t 2'
-    echo '  ./netscan.sh -p 22,80,443,8080 -o results'
-    echo '  ./netscan.sh -q -j 50'
-    echo '  sudo ./netscan.sh -a'
-    echo ''
-}
-
 # ─── Section headers ─────────────────────────────────────────────────────────
 print_section() {
     local title="$1"
