@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # SmartScan - Local Network Discovery Scanner
 # Author: Prasad
