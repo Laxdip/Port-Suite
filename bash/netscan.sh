@@ -1,23 +1,3 @@
-
-print_help() {
-    echo -e "${CYAN}"
-    echo '┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐'
-    echo '│                                                    USAGE                                                       │'
-    echo '└────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘'
-    echo -e "${RESET}"
-    echo ''
-    echo -e "  ${WHITE}./netscan.sh [options]${RESET}"
-    echo ''
-    echo ''
-    echo -e "${YELLOW}EXAMPLES:${RESET}"
-    echo '  ./netscan.sh'
-    echo '  ./netscan.sh -n 192.168.1.0/24'
-    echo '  ./netscan.sh -q -o devices.txt'
-    echo '  sudo ./netscan.sh -a'
-    echo ''
-}
-
-
 print_results_header() {
     echo -e "${CYAN}"
     echo '╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗'
