@@ -1,3 +1,4 @@
+#!/usr/bin/env go run
 // Usage:
 //   go run fastscan.go -host <target> [options]
 
