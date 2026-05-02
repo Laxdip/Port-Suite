@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 set -euo pipefail
 
 # ─── ANSI color codes ───────────────────────────────────────────────────────
