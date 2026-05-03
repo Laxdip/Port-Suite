@@ -15,7 +15,6 @@ namespace SmartScan
         // UI Components
         private TextBox txtTarget;
         private TextBox txtPorts;
-        private NumericUpDown numTimeout;
         private ComboBox cmbPreset;
         private Button btnStart;
         private Button btnStop;
