@@ -166,17 +166,6 @@ using System.Windows.Forms;
             this.lblOpenCount.Size = new Size(300, 30);
             this.lblOpenCount.Text = "Open ports: 0";
             
-            // grpOptions
-            this.grpOptions.Controls.AddRange(new Control[] {
-                this.txtTarget, this.txtPorts, this.numTimeout, this.cmbPreset,
-                this.chkServiceDetection, this.btnStart, this.btnStop,
-                this.progressBar, this.lblStatus, this.lblProgress, this.lblOpenCount
-            });
-            this.grpOptions.Font = new Font("Consolas", 10F, FontStyle.Bold);
-            this.grpOptions.Location = new Point(12, 12);
-            this.grpOptions.Size = new Size(350, 510);
-            this.grpOptions.Text = " SCAN OPTIONS ";
-            
             // dgvResults
             this.dgvResults.AllowUserToAddRows = false;
             this.dgvResults.AllowUserToDeleteRows = false;
