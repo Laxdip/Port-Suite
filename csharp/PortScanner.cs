@@ -1,4 +1,4 @@
-// SmartScan - Advanced GUI Port Scanner
+// SmartScan
 // Author  : Prasad
 // Version : 2.0
 // Platform: Windows (.NET 8 / WinForms)
