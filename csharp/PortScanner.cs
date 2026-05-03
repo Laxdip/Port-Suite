@@ -1039,3 +1039,4 @@ namespace SmartScan
             Application.Run(new PortScannerForm());
         }
     }
+}
