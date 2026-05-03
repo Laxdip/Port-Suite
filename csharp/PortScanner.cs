@@ -214,33 +214,8 @@ using System.Windows.Forms;
             // toolProgress
             this.toolProgress.Visible = false;
             
-            // Form
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.BackColor = Color.FromArgb(13, 17, 23);
-            this.ClientSize = new Size(1032, 557);
-            this.Controls.Add(this.grpOptions);
-            this.Controls.Add(this.grpResults);
-            this.Controls.Add(this.statusStrip);
-            this.Font = new Font("Consolas", 9F);
-            this.ForeColor = Color.FromArgb(201, 209, 217);
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.Name = "PortScannerForm";
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.Text = "SmartScan - Advanced Port Scanner";
-            
-            ((System.ComponentModel.ISupportInitialize)(this.numTimeout)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).EndInit();
-            this.grpOptions.ResumeLayout(false);
-            this.grpOptions.PerformLayout();
-            this.grpResults.ResumeLayout(false);
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
         }
-
-        private void SetupForm()
+        
         {
             // Set colors for text boxes
             txtTarget.BackColor = Color.FromArgb(13, 17, 23);
