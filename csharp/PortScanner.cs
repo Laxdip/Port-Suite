@@ -1018,7 +1018,7 @@ namespace SmartScan
             statusLabel.Text  = " SmartScan v2.0  ·  by Prasad";
         }
 
-        // ── CSV quoting helpe ────────────────────────────────────────────────
+        // ── CSV quoting helper ────────────────────────────────────────────────
         private static string Q(string s) =>
             s.Contains(',') || s.Contains('"') || s.Contains('\n')
                 ? $"\"{s.Replace("\"", "\"\"")}\"" : s;
