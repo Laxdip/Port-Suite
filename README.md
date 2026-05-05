@@ -4,17 +4,13 @@
 
 ---
 
-##  Features
+## Features
 
-| Feature | Description |
-|--------|-------------|
-|  **Fast** | Multi-threaded / concurrent scanning |
-|  **Accurate** | Service detection and banner grabbing |
-|  **Cross-platform** | Works on Windows, Linux, macOS |
-|  **Beautiful UI** | Terminal colors + Windows GUI app |
-|  **Detailed output** | Port, service, status, response time |
-|  **Export results** | Save scans to file |
-
+- **Fast** – Multi threaded concurrent scanning
+- **Accurate** – Service detection + banner grabbing
+- **Cross-platform** – Windows, Linux, macOS
+- **Detailed output** – Port, service, status, response time
+- **Export results** – Save scans to file
 ---
 
 ## Screenshots
@@ -38,16 +34,14 @@
 
 ## Versions & Purpose
 
-| Version | File | Best For |
-|--------|------|----------|
-| Python | `python/scanner.py` | Full features, OS detection, banner grabbing |
-| JavaScript | `javascript/ping.js` | Real-time latency monitoring |
-| Go | `go/fastscan.go` | Blazing fast scanning |
-| Rust | `rust/scanner.rs` | Memory-safe, high performance |
-| Bash | `bash/netscan.sh` | Local network discovery |
-| PHP | `php/webscan.php` | Web + CLI scanning |
-| C# | `csharp/PortScanner.cs` | Windows GUI application |
-| Ruby | `ruby/scan.rb` | Service fingerprinting |
+- **Python** – Full features + banner grabbing
+- **Go** – Blazing fast
+- **Rust** – Memory-safe performance
+- **Bash** – Local network discovery
+- **JavaScript** – Real-time ping
+- **PHP** – Web + CLI scanning
+- **C#** – Windows GUI app
+- **Ruby** – Service fingerprinting
 
 ---
 
@@ -123,31 +117,6 @@ Open http://localhost:8080
 
 ## Requirements
 Python 3.6+, Node.js 14+, Go 1.16+, Rust 1.60+, PHP 7.4+, Ruby 2.5+, or .NET (C#)
-
-
----
-
-## Project Structure
-
-Port-Suite/  
-├── README.md  
-├── python/  
-│   └── scanner.py  
-├── javascript/  
-│   └── ping.js  
-├── go/  
-│   └── fastscan.go  
-├── rust/  
-│   └── scanner.rs  
-├── bash/  
-│   └── netscan.sh  
-├── php/  
-│   ├── webscan.php  
-│   └── check_port.php  
-├── csharp/  
-│   └── PortScanner.cs  
-└── ruby/  
-    └── scan.rb  
 
 ---
 
