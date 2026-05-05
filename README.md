@@ -1,4 +1,4 @@
-# Port-Suite
+# Port Suite
 
 **Port-Suite** is a network port scanning suite. Each implementation is optimized for a specific use case from speed to accuracy to usability.
 
@@ -122,17 +122,8 @@ Open http://localhost:8080
 ---
 
 ## Requirements
+Python 3.6+, Node.js 14+, Go 1.16+, Rust 1.60+, PHP 7.4+, Ruby 2.5+, or .NET (C#)
 
-| Version | Requirement |
-|--------|------------|
-| Python | Python 3.6+ |
-| JavaScript | Node.js 14+ |
-| Go | Go 1.16+ |
-| Rust | Rust 1.60+ |
-| Bash | Linux/macOS or WSL |
-| PHP | PHP 7.4+ |
-| C# | .NET Framework / .NET Core |
-| Ruby | Ruby 2.5+ |
 
 ---
 
