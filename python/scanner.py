@@ -117,3 +117,21 @@ SERVICE_DB = {
     27017:("MongoDB",     "nosql", "NO AUTH by default – exposed to internet risk"),
     50000:("DB2",         "sql",   "Check: default credentials"),
 }
+
+# ──────────────────────────────────────────────────────────────────────────────
+#  OS FINGERPRINT HINTS  (TTL-based approximation from banner/ping)
+# ──────────────────────────────────────────────────────────────────────────────
+OS_TTL_HINTS = {
+    (1,   64):  "Linux / Android / macOS",
+    (65,  128): "Windows",
+    (129, 255): "Cisco / Solaris / FreeBSD",
+}
+
+BANNER_OS_PATTERNS = [
+    (r"(?i)ubuntu|debian|kali|centos|fedora|rhel|arch",  "Linux"),
+    (r"(?i)windows|microsoft|win32|iis",                  "Windows"),
+    (r"(?i)freebsd|openbsd|netbsd",                       "BSD"),
+    (r"(?i)cisco|junos",                                  "Network Device"),
+    (r"(?i)darwin|macos|mac os x",                        "macOS"),
+    (r"(?i)android",                                      "Android"),
+]
