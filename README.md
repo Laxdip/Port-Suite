@@ -71,7 +71,7 @@ python python/advanced_scanner.py -t target.com -p top1000 --json out.json
 ![Python](screenshots/python.png)
 
 ### Go · JavaScript · PHP · Ruby
-![Go](screenshots/Go.png) ![JavaScript](screenshots/js.png) ![PHP](screenshots/php.png) ![Ruby](screenshots/ruby.png)
+<img src="screenshots/Go.png" width="150"> <img src="screenshots/js.png" width="150"> <img src="screenshots/php.png" width="150"> <img src="screenshots/ruby.png" width="150">
 
 ---
 
