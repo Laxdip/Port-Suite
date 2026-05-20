@@ -8,8 +8,9 @@
   ██║     ╚██████╔╝██║  ██║   ██║       ███████║╚██████╔╝██║   ██║   ███████╗
   ╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝       ╚══════╝ ╚═════╝ ╚═╝   ╚═╝   ╚══════╝[0m
 ```
+</div>
 
-**Port scanning and network analysis toolkit — built for performance and learning.**
+**Port scanning and network analysis toolkit....built for performance and learning.**
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Python](https://img.shields.io/badge/python-3.6+-green)
@@ -84,4 +85,4 @@ For educational purposes and authorized testing only. Only scan systems you own 
 
 ## Author
 
-**Prasad** — [github.com/Laxdip](https://github.com/Laxdip) · MIT License
+**Prasad** — [github.com/Laxdip](https://github.com/Laxdip)
