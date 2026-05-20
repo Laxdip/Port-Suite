@@ -164,3 +164,285 @@ class ScanResult:
         self.vuln_hint   = vuln_hint
         self.timestamp   = datetime.now().isoformat()
 
+# ──────────────────────────────────────────────────────────────────────────────
+#  CORE SCANNER CLASS
+# ──────────────────────────────────────────────────────────────────────────────
+class AdvancedPortScanner:
+
+    def __init__(self, target, ports, timeout=1.5, threads=300,
+                 grab_banners=True, stealth=False, verbose=False):
+        self.target       = target
+        self.ports        = ports
+        self.timeout      = timeout
+        self.threads      = threads
+        self.grab_banners = grab_banners
+        self.stealth      = stealth
+        self.verbose      = verbose
+        self.results      = []
+        self.lock         = threading.Lock()
+        self.scanned      = 0
+        self.start_time   = None
+        self.resolved_ip  = None
+        self.os_guess     = "Unknown"
+        self._resolve()
+
+    # ── resolve hostname ──────────────────────────────────────────────────────
+    def _resolve(self):
+        try:
+            self.resolved_ip = socket.gethostbyname(self.target)
+        except socket.gaierror as e:
+            print(f"{C.RED}[!] Cannot resolve '{self.target}': {e}{C.RESET}")
+            sys.exit(1)
+
+    # ── grab banner from open port ────────────────────────────────────────────
+    def _grab_banner(self, port, proto_hint):
+        banner = ""
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.settimeout(self.timeout)
+            s.connect((self.resolved_ip, port))
+
+            probe = PROBES.get(proto_hint, b"")
+            if probe:
+                probe = probe.replace(b"{host}", self.target.encode())
+                s.sendall(probe)
+
+            raw = s.recv(1024)
+            banner = raw.decode("utf-8", errors="replace").strip()
+            banner = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", "", banner)
+            banner = banner[:200]
+            s.close()
+        except Exception:
+            pass
+        return banner
+
+    # ── probe a single port ───────────────────────────────────────────────────
+    def _scan_port(self, port):
+        t0 = time.time()
+        state = "closed"
+        banner = ""
+        service_name = "unknown"
+        proto_hint   = ""
+        vuln_hint    = ""
+
+        if port in SERVICE_DB:
+            service_name, proto_hint, vuln_hint = SERVICE_DB[port]
+        else:
+            try:
+                service_name = socket.getservbyport(port, "tcp")
+            except Exception:
+                service_name = "unknown"
+
+        # stealth: SYN-like (connect with quick abort) vs full connect
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.settimeout(self.timeout)
+            code = s.connect_ex((self.resolved_ip, port))
+            elapsed_ms = (time.time() - t0) * 1000
+
+            if code == 0:
+                state = "open"
+                s.close()
+                if self.grab_banners:
+                    banner = self._grab_banner(port, proto_hint)
+            else:
+                s.close()
+                state = "closed"
+                elapsed_ms = (time.time() - t0) * 1000
+
+        except socket.timeout:
+            state = "filtered"
+            elapsed_ms = self.timeout * 1000
+        except Exception:
+            state = "filtered"
+            elapsed_ms = (time.time() - t0) * 1000
+
+        result = ScanResult(port, state, service_name, banner, elapsed_ms, vuln_hint)
+
+        with self.lock:
+            self.scanned += 1
+            self.results.append(result)
+            if state == "open":
+                self._print_open(result)
+            elif self.verbose and state == "filtered":
+                self._print_filtered(result)
+
+        return result
+
+    # ── pretty print open port ────────────────────────────────────────────────
+    def _print_open(self, r):
+        hint_str = ""
+        if r.vuln_hint:
+            hint_str = f"\n        {C.YELLOW}⚠  {r.vuln_hint}{C.RESET}"
+        banner_str = ""
+        if r.banner:
+            short = r.banner.split('\n')[0][:80]
+            banner_str = f"\n        {C.DIM}↳  {short}{C.RESET}"
+        print(
+            f"  {C.GREEN}[OPEN]{C.RESET}  "
+            f"{C.BOLD}{r.port:<6}{C.RESET}  "
+            f"{C.CYAN}{r.service:<18}{C.RESET}  "
+            f"{C.DIM}{r.response_ms:>7.1f} ms{C.RESET}"
+            f"{hint_str}{banner_str}"
+        )
+
+    def _print_filtered(self, r):
+        print(
+            f"  {C.YELLOW}[FILT]{C.RESET}  "
+            f"{r.port:<6}  {C.DIM}{r.service}{C.RESET}"
+        )
+
+    # ── OS fingerprint from banners ───────────────────────────────────────────
+    def _fingerprint_os(self):
+        all_banners = " ".join(r.banner for r in self.results if r.banner)
+        for pattern, name in BANNER_OS_PATTERNS:
+            if re.search(pattern, all_banners):
+                self.os_guess = name
+                return
+        # secondary: check SSH banner version string patterns
+        for r in self.results:
+            if r.port == 22 and "OpenSSH" in r.banner:
+                if "Ubuntu" in r.banner:
+                    self.os_guess = "Linux (Ubuntu)"
+                elif "Debian" in r.banner:
+                    self.os_guess = "Linux (Debian)"
+                else:
+                    self.os_guess = "Linux"
+                return
+
+    # ── print progress bar ────────────────────────────────────────────────────
+    def _progress(self, done, total):
+        pct   = done / total
+        width = 35
+        filled = int(width * pct)
+        bar = "█" * filled + "░" * (width - filled)
+        elapsed = time.time() - self.start_time
+        rate    = done / elapsed if elapsed > 0 else 0
+        eta     = (total - done) / rate if rate > 0 else 0
+        print(
+            f"\r  {C.CYAN}[{bar}]{C.RESET} "
+            f"{pct*100:5.1f}%  "
+            f"{done}/{total} ports  "
+            f"{rate:.0f}/s  "
+            f"ETA {eta:.0f}s   ",
+            end="", flush=True
+        )
+
+    # ── main scan entry point ─────────────────────────────────────────────────
+    def scan(self):
+        self.start_time = time.time()
+        total = len(self.ports)
+
+        print(f"\n  {C.DIM}{'─'*65}{C.RESET}")
+        print(f"  {C.BOLD}{C.CYAN}TARGET{C.RESET}   {self.target}  ({self.resolved_ip})")
+        print(f"  {C.BOLD}PORTS{C.RESET}    {total:,} ports  |  "
+              f"THREADS {self.threads}  |  "
+              f"TIMEOUT {self.timeout}s  |  "
+              f"BANNERS {'ON' if self.grab_banners else 'OFF'}")
+        print(f"  {C.BOLD}STARTED{C.RESET}  {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"  {C.DIM}{'─'*65}{C.RESET}\n")
+
+        completed = 0
+        with ThreadPoolExecutor(max_workers=self.threads) as executor:
+            futures = {executor.submit(self._scan_port, p): p for p in self.ports}
+            for _ in as_completed(futures):
+                completed += 1
+                self.scanned = completed
+                self._progress(completed, total)
+
+        print()  # newline after progress
+
+        elapsed = time.time() - self.start_time
+        self._fingerprint_os()
+        self._print_summary(elapsed)
+
+    # ── summary ───────────────────────────────────────────────────────────────
+    def _print_summary(self, elapsed):
+        open_ports     = [r for r in self.results if r.state == "open"]
+        filtered_ports = [r for r in self.results if r.state == "filtered"]
+        closed_ports   = [r for r in self.results if r.state == "closed"]
+
+        print(f"\n  {C.DIM}{'─'*65}{C.RESET}")
+        print(f"  {C.BOLD}SCAN COMPLETE{C.RESET}  in {elapsed:.2f}s  "
+              f"({len(self.ports)/elapsed:.0f} ports/sec)")
+        print(f"\n  {C.GREEN}OPEN     : {len(open_ports)}{C.RESET}   "
+              f"{C.YELLOW}FILTERED : {len(filtered_ports)}{C.RESET}   "
+              f"{C.DIM}CLOSED   : {len(closed_ports)}{C.RESET}")
+        print(f"  {C.MAGENTA}OS GUESS : {self.os_guess}{C.RESET}")
+        print(f"  {C.DIM}{'─'*65}{C.RESET}")
+
+        if open_ports:
+            print(f"\n  {C.BOLD}OPEN PORTS SUMMARY{C.RESET}")
+            print(f"  {'PORT':<8}{'SERVICE':<20}{'RESPONSE':<12}{'BANNER (first line)'}")
+            print(f"  {C.DIM}{'─'*65}{C.RESET}")
+            for r in sorted(open_ports, key=lambda x: x.port):
+                banner_preview = r.banner.split('\n')[0][:35] if r.banner else "—"
+                print(f"  {C.GREEN}{r.port:<8}{C.RESET}"
+                      f"{C.CYAN}{r.service:<20}{C.RESET}"
+                      f"{r.response_ms:<12.1f}"
+                      f"{C.DIM}{banner_preview}{C.RESET}")
+
+        # risk heatmap
+        if open_ports:
+            print(f"\n  {C.BOLD}RISK HIGHLIGHTS{C.RESET}")
+            for r in sorted(open_ports, key=lambda x: x.port):
+                if r.vuln_hint:
+                    print(f"  {C.RED}✖{C.RESET}  Port {C.BOLD}{r.port}{C.RESET}"
+                          f" ({r.service}) — {C.YELLOW}{r.vuln_hint}{C.RESET}")
+
+        print()
+
+    # ── export ────────────────────────────────────────────────────────────────
+    def export_json(self, filepath):
+        data = {
+            "meta": {
+                "target":      self.target,
+                "resolved_ip": self.resolved_ip,
+                "os_guess":    self.os_guess,
+                "scanned_at":  datetime.now().isoformat(),
+                "total_ports": len(self.ports),
+            },
+            "results": [
+                {
+                    "port":        r.port,
+                    "state":       r.state,
+                    "service":     r.service,
+                    "banner":      r.banner,
+                    "response_ms": round(r.response_ms, 2),
+                    "vuln_hint":   r.vuln_hint,
+                }
+                for r in sorted(self.results, key=lambda x: x.port)
+                if r.state == "open"
+            ]
+        }
+        with open(filepath, "w") as f:
+            json.dump(data, f, indent=2)
+        print(f"  {C.GREEN}[✓] JSON saved → {filepath}{C.RESET}")
+
+    def export_csv(self, filepath):
+        with open(filepath, "w", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(["port","state","service","response_ms","banner","vuln_hint"])
+            for r in sorted(self.results, key=lambda x: x.port):
+                if r.state == "open":
+                    w.writerow([r.port, r.state, r.service,
+                                 round(r.response_ms,2), r.banner, r.vuln_hint])
+        print(f"  {C.GREEN}[✓] CSV saved  → {filepath}{C.RESET}")
+
+    def export_txt(self, filepath):
+        with open(filepath, "w") as f:
+            f.write(f"Port-Suite Advanced Scanner  |  Author: Prasad\n")
+            f.write(f"Target : {self.target} ({self.resolved_ip})\n")
+            f.write(f"OS Hint: {self.os_guess}\n")
+            f.write(f"Scanned: {datetime.now().isoformat()}\n")
+            f.write("="*60 + "\n\n")
+            for r in sorted(self.results, key=lambda x: x.port):
+                if r.state == "open":
+                    f.write(f"[OPEN]  {r.port:<6}  {r.service:<20}  {r.response_ms:.1f}ms\n")
+                    if r.banner:
+                        f.write(f"        Banner: {r.banner[:100]}\n")
+                    if r.vuln_hint:
+                        f.write(f"        Risk  : {r.vuln_hint}\n")
+                    f.write("\n")
+        print(f"  {C.GREEN}[✓] TXT saved  → {filepath}{C.RESET}")
+
