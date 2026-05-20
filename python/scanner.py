@@ -1,9 +1,4 @@
-#!/usr/bin/env python3
-"""
-SmartScan - Advanced Python Port Scanner
-Author: Prasad
-Features: Multi-threaded, Banner Grabbing, OS Detection, Service Recognition
-"""
+
 
 import socket
 import threading
