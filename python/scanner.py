@@ -503,3 +503,92 @@ BANNER = f"""
   │  Multithreaded • OS Detection • CVE Hints • Export    │
   └─────────────────────────────────────────────────────────────────────────┘
 {C.RESET}"""
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+#  CLI
+# ──────────────────────────────────────────────────────────────────────────────
+def parse_args():
+    p = argparse.ArgumentParser(
+        description="Port-Suite Advanced Scanner  |  Author: Prasad",
+        formatter_class=argparse.RawTextHelpFormatter,
+        epilog="""
+EXAMPLES
+  python advanced_scanner.py -t scanme.nmap.org -p top1000
+  python advanced_scanner.py -t 192.168.1.1 -p 1-65535 -T 500 --timeout 0.5
+  python advanced_scanner.py -t example.com -p 80,443,8080-8090 --json out.json
+  python advanced_scanner.py -t 10.0.0.1 -p common --no-banner --stealth
+  python advanced_scanner.py -t scanme.nmap.org -p top1000 --csv results.csv
+
+PORT EXPRESSIONS
+  top1000    Most common 1000 ports (default)
+  common     Same as top1000
+  all        All 65535 ports
+  1-1024     Port range
+  80,443     Specific ports
+  22,80-90   Mixed
+        """
+    )
+    p.add_argument("-t",  "--target",   required=True, help="Target hostname or IP")
+    p.add_argument("-p",  "--ports",    default="top1000",
+                   help="Port spec (default: top1000)")
+    p.add_argument("-T",  "--threads",  type=int, default=300,
+                   help="Thread count (default: 300)")
+    p.add_argument("--timeout", type=float, default=1.5,
+                   help="Per-port timeout in seconds (default: 1.5)")
+    p.add_argument("--no-banner", action="store_true",
+                   help="Skip banner grabbing (faster)")
+    p.add_argument("--stealth",   action="store_true",
+                   help="Stealth mode — no probe data sent")
+    p.add_argument("--verbose",   action="store_true",
+                   help="Show filtered ports too")
+    p.add_argument("--no-color",  action="store_true",
+                   help="Disable ANSI colors")
+    p.add_argument("--json",      metavar="FILE",
+                   help="Export results to JSON file")
+    p.add_argument("--csv",       metavar="FILE",
+                   help="Export results to CSV file")
+    p.add_argument("--txt",       metavar="FILE",
+                   help="Export results to TXT file")
+    return p.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    if args.no_color or not sys.stdout.isatty():
+        C.disable()
+
+    print(BANNER)
+
+    ports = parse_ports(args.ports)
+    print(f"  {C.DIM}Loaded {len(ports):,} ports to scan...{C.RESET}")
+
+    scanner = AdvancedPortScanner(
+        target       = args.target,
+        ports        = ports,
+        timeout      = args.timeout,
+        threads      = args.threads,
+        grab_banners = not args.no_banner,
+        stealth      = args.stealth,
+        verbose      = args.verbose,
+    )
+
+    try:
+        scanner.scan()
+    except KeyboardInterrupt:
+        print(f"\n\n  {C.YELLOW}[!] Scan interrupted by user.{C.RESET}")
+
+    # exports
+    if args.json:
+        scanner.export_json(args.json)
+    if args.csv:
+        scanner.export_csv(args.csv)
+    if args.txt:
+        scanner.export_txt(args.txt)
+
+    print(f"\n  {C.DIM}⚠  Use only on systems you own or have permission to test.{C.RESET}\n")
+
+
+if __name__ == "__main__":
+    main()
