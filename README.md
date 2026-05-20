@@ -19,7 +19,7 @@
 
 ---
 
-## Advanced Scanner — *Start Here*
+## Advanced Scanner 
 
 The most powerful scanner in this suite. Pure Python, zero dependencies.
 
