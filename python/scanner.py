@@ -135,3 +135,32 @@ BANNER_OS_PATTERNS = [
     (r"(?i)darwin|macos|mac os x",                        "macOS"),
     (r"(?i)android",                                      "Android"),
 ]
+
+# ──────────────────────────────────────────────────────────────────────────────
+#  BANNER PROBES  (what to send to elicit a response per service)
+# ──────────────────────────────────────────────────────────────────────────────
+PROBES = {
+    "http":  b"HEAD / HTTP/1.0\r\nHost: {host}\r\n\r\n",
+    "https": b"HEAD / HTTP/1.0\r\nHost: {host}\r\n\r\n",
+    "smtp":  b"EHLO portscanner\r\n",
+    "ftp":   b"",          # FTP sends banner on connect
+    "ssh":   b"",          # SSH sends banner on connect
+    "imap":  b"",
+    "pop3":  b"",
+    "mysql": b"\x0e\x00\x00\x01\x85\xa6\x03\x00\x00\x00\x00\x01\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+    "redis": b"*1\r\n$4\r\nPING\r\n",
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+#  SCAN RESULT  (dataclass-style)
+# ──────────────────────────────────────────────────────────────────────────────
+class ScanResult:
+    def __init__(self, port, state, service, banner, response_ms, vuln_hint):
+        self.port        = port
+        self.state       = state          # "open" | "closed" | "filtered"
+        self.service     = service
+        self.banner      = banner
+        self.response_ms = response_ms
+        self.vuln_hint   = vuln_hint
+        self.timestamp   = datetime.now().isoformat()
+
