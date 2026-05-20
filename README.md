@@ -51,9 +51,9 @@ python python/advanced_scanner.py -t target.com -p top1000 --json out.json
 
 ## Other Versions
 
-| Language | Best For |
+| Used | Best For |
 |---|---|
-| Python (basic) | Simple scanning |
+| Python (advanced) | Deep scanning |
 | Go | Blazing fast |
 | Rust | Memory-safe performance |
 | Bash | Local network discovery |
